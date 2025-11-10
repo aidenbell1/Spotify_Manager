@@ -1,0 +1,29 @@
+# Spotify API Configuration Template
+# Copy this file to 'config.py' and fill in your actual values
+# Get these values from: https://developer.spotify.com/dashboard
+
+# Required: Your Spotify App Credentials
+# 1. Go to https://developer.spotify.com/dashboard
+# 2. Click "Create an App"
+# 3. Copy the Client ID and Client Secret here
+CLIENT_ID = "your_client_id_here"
+CLIENT_SECRET = "your_client_secret_here"
+
+# Required: Redirect URI
+# Set this in your Spotify app settings under "Redirect URIs"
+REDIRECT_URI = "http://localhost:8888/callback"
+
+# Optional: Application Settings (you can leave these as-is)
+DEFAULT_BATCH_SIZE = 20  # Number of songs to process at once
+DEFAULT_DELAY = 0.5      # Seconds to wait between API calls
+ERROR_RETRY_DELAY = 60   # Seconds to wait after an error
+
+# Spotify API Scopes (don't change unless you know what you're doing)
+SCOPES = "user-library-read user-top-read user-library-modify"
+
+# Time range options for top tracks
+TIME_RANGES = {
+    'short': 'short_term',    # Last 4 weeks
+    'medium': 'medium_term',  # Last 6 months  
+    'long': 'long_term'       # Several years
+}

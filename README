@@ -1,0 +1,151 @@
+# Spotify Liked Songs Manager
+
+A Python command-line tool that manages your Spotify liked songs by replacing them with your current top tracks. Built with proper rate limiting, error handling, and batch processing for safe API usage.
+
+## ✨ Features
+
+- **Smart Replacement**: Replace all liked songs with your most played tracks
+- **Flexible Time Ranges**: Choose from last 4 weeks, 6 months, or several years of listening data
+- **Rate Limiting**: Built-in delays and batch processing to respect Spotify's API limits
+- **Dry Run Mode**: Preview changes before making them
+- **Progress Tracking**: Real-time feedback on operations
+- **Error Handling**: Automatic retries and graceful error recovery
+- **Command Line Interface**: Easy-to-use CLI with multiple options
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.7+
+- A Spotify account
+- A Spotify Developer App (free)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/spotify-liked-songs-manager.git
+   cd spotify-liked-songs-manager
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Set up Spotify API credentials:**
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+   - Create a new app
+   - Set the Redirect URI to: `http://localhost:8888/callback`
+   - Copy `config.py.example` to `config.py`:
+     ```bash
+     cp config.py.example config.py
+     ```
+   - Edit `config.py` with your actual credentials:
+   ```python
+   CLIENT_ID = "your_actual_client_id"
+   CLIENT_SECRET = "your_actual_client_secret"
+   REDIRECT_URI = "http://localhost:8888/callback"
+   ```
+
+4. **Run the tool:**
+   ```bash
+   python spotify_manager.py --dry-run  # Preview what would happen
+   python spotify_manager.py            # Actually replace your liked songs
+   ```
+
+## 📖 Usage Examples
+
+### Basic Usage
+```bash
+# Replace liked songs with your top 50 tracks from the last 6 months
+python spotify_manager.py
+
+# Use only your top 20 tracks
+python spotify_manager.py --limit 20
+
+# Use tracks from the last 4 weeks instead of 6 months
+python spotify_manager.py --time-range short
+```
+
+### Preview Mode
+```bash
+# See what would happen without making changes
+python spotify_manager.py --dry-run
+```
+
+### View Your Data
+```bash
+# Just show your top tracks
+python spotify_manager.py --show-top
+
+# Just show your current liked songs
+python spotify_manager.py --show-liked
+```
+
+### Advanced Options
+```bash
+# Use larger batches for faster processing (if your API limits allow)
+python spotify_manager.py --batch-size 50
+
+# Get help with all available options
+python spotify_manager.py --help
+```
+
+## ⚙️ Configuration
+
+Edit `config.py` to customize default settings:
+
+```python
+DEFAULT_BATCH_SIZE = 20  # Songs processed per API call
+DEFAULT_DELAY = 0.5      # Seconds between API calls
+ERROR_RETRY_DELAY = 60   # Seconds to wait after errors
+```
+
+## 🛠️ What I Learned Building This
+
+- **API Integration**: Working with OAuth 2.0 authentication and REST APIs
+- **Rate Limiting**: Implementing proper delays and batch processing for APIs
+- **Error Handling**: Building resilient code that handles network issues gracefully
+- **User Experience**: Creating clear progress feedback and dry-run capabilities
+- **Code Organization**: Using configuration files and clean class structures
+
+## 🔧 Technical Details
+
+### Rate Limiting Strategy
+- Processes songs in batches of 20 (configurable)
+- 500ms delay between API calls
+- Automatic retry with longer delays on errors
+
+### Error Handling
+- Graceful handling of network timeouts
+- Automatic retries with exponential backoff
+- Clear error messages and progress reporting
+
+### API Endpoints Used
+- `GET /v1/me/top/tracks` - Fetch top tracks
+- `GET /v1/me/tracks` - Fetch liked songs  
+- `DELETE /v1/me/tracks` - Remove liked songs
+- `PUT /v1/me/tracks` - Add liked songs
+
+## 🚧 Limitations
+
+- Spotify API rate limits (handled automatically)
+- Maximum 50 tracks per API request (handled with pagination)
+- Requires active Spotify Premium or Free account
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## ⚠️ Disclaimer
+
+This tool modifies your Spotify liked songs. Always run with `--dry-run` first to preview changes. Use at your own risk.
+
+## 🙋‍♀️ Support
+
+If you encounter issues:
+1. Check that your Spotify app credentials are correct
+2. Ensure you have the required scopes enabled
+3. Try running with `--dry-run` first
+4. Check the console output for specific error messages
