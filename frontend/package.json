@@ -1,0 +1,16 @@
+{
+    "name": "spotify-dashboard-frontend",
+    "version": "1.0.0",
+    "description": "Frontend for Spotify Dashboard",
+    "main": "index.html",
+    "scripts": {
+        "serve": "python -m http.server 3000",
+        "dev": "live-server --port=3000"
+    },
+    "devDependencies": {
+        "live-server": "^1.2.2"
+    },
+    "dependencies": {
+        "chart.js": "^4.4.0"
+    }
+}

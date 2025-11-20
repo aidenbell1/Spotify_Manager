@@ -1,25 +1,38 @@
-# Spotify API Configuration Template
+# Spotify Web Dashboard Configuration
 # Copy this file to 'config.py' and fill in your actual values
 # Get these values from: https://developer.spotify.com/dashboard
 
 # Required: Your Spotify App Credentials
 # 1. Go to https://developer.spotify.com/dashboard
-# 2. Click "Create an App"
-# 3. Copy the Client ID and Client Secret here
+# 2. Click "Create an App" 
+# 3. Add redirect URI: http://localhost:8000/auth/callback
+# 4. Copy the Client ID and Client Secret here
 CLIENT_ID = "your_client_id_here"
 CLIENT_SECRET = "your_client_secret_here"
 
-# Required: Redirect URI
-# Set this in your Spotify app settings under "Redirect URIs"
-REDIRECT_URI = "http://localhost:8888/callback"
+# Required: Redirect URI for Web App
+# Must match exactly what's in your Spotify app settings
+REDIRECT_URI = "http://localhost:8000/auth/callback"
 
-# Optional: Application Settings (you can leave these as-is)
+# FastAPI Configuration
+SECRET_KEY = "your-secret-key-change-this-in-production"  # Used for session encryption
+CORS_ORIGINS = ["http://localhost:3000", "http://localhost:8080", "http://127.0.0.1:8000"]
+DEBUG = True
+
+# Database Configuration  
+DATABASE_URL = "sqlite:///./spotify_dashboard.db"  # SQLite for development
+# For production, use: "postgresql://user:password@localhost/dbname"
+
+# Spotify API Settings
+SCOPES = "user-library-read user-top-read user-library-modify user-read-recently-played user-read-playback-state"
 DEFAULT_BATCH_SIZE = 20  # Number of songs to process at once
 DEFAULT_DELAY = 0.5      # Seconds to wait between API calls
 ERROR_RETRY_DELAY = 60   # Seconds to wait after an error
 
-# Spotify API Scopes (don't change unless you know what you're doing)
-SCOPES = "user-library-read user-top-read user-library-modify"
+# Data Collection Settings
+CACHE_DURATION_MINUTES = 30  # How long to cache Spotify data before refreshing
+MAX_RECENT_TRACKS = 50       # Maximum recent tracks to store
+MAX_TOP_TRACKS = 50          # Maximum top tracks per time period
 
 # Time range options for top tracks
 TIME_RANGES = {
@@ -27,3 +40,11 @@ TIME_RANGES = {
     'medium': 'medium_term',  # Last 6 months  
     'long': 'long_term'       # Several years
 }
+
+# Frontend Configuration
+FRONTEND_URL = "http://localhost:8000"  # Where your web app is served
+STATIC_FILES_DIR = "frontend"           # Directory containing HTML/CSS/JS
+
+# Session Configuration
+SESSION_EXPIRE_HOURS = 24  # How long user sessions last
+AUTO_REFRESH_TOKENS = True # Automatically refresh expired Spotify tokens

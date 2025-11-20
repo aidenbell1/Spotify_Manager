@@ -1,3 +1,0 @@
-# Spotify API Integration Tool Dependencies
-
-spotipy>=2.22.0
