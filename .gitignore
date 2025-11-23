@@ -1,4 +1,3 @@
-# Spotify API Credentials - NEVER commit these!
 config.py
 
 # Python
@@ -55,3 +54,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+key.pem
+cert.pem
+*.db

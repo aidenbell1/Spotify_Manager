@@ -1,11 +1,21 @@
 from fastapi import FastAPI
-from database import createTables, dropTables
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from database import createTables
+from routes import auth
+from datetime import datetime
+
+
+createTables()
 
 app = FastAPI()
 
-# Create database tables on startup
-createTables()
-
-@app.get("/")
-def read_root():
-    return {"message": "Spotify Dashboard API"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(auth.router, prefix="/api")
+app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")

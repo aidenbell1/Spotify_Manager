@@ -11,6 +11,8 @@ class User(Base):
     __tablename__ = "users"
     spotify_id = Column(String, primary_key=True, index=True)
     display_name = Column(String)
+    email = Column(String, unique=True, index=True)
+    country = Column(String)
     follower_count = Column(Integer)
     profile_image_url = Column(String)
     access_token = Column(Text)
@@ -67,8 +69,22 @@ class UserRecentTracks(Base):
     track_spotify_id = Column(String, ForeignKey("track.spotify_id"))
     played_at = Column(DateTime)
 
+class Session(Base):
+    __tablename__ = "sessions"
+    id = Column(String, primary_key=True, index=True)
+    user_spotify_id = Column(String, ForeignKey("users.spotify_id"))
+    created_at = Column(DateTime, default=func.now())
+    expires_at = Column(DateTime)
+
 def createTables():
     Base.metadata.create_all(bind=database)
 
 def dropTables():
     Base.metadata.drop_all(bind=database)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
